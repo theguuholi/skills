@@ -6,8 +6,11 @@ import {
   StyleSheet,
   TextInput,
   Platform,
-  TouchableOpacity,
+  ScrollView,
+  FlatList,
 } from 'react-native';
+import {Button} from '../components/Button';
+import {SKillCard} from '../components/SkillCard';
 
 export function Home() {
   const [newSkill, setNewSkill] = useState('');
@@ -28,20 +31,15 @@ export function Home() {
         onChangeText={setNewSkill}
       />
 
-      <TouchableOpacity
-        activeOpacity={0.7}
-        style={styles.button}
-        onPress={handleAddNewSkill}>
-        <Text style={styles.buttonText}>Add</Text>
-      </TouchableOpacity>
+      <Button onPress={handleAddNewSkill} />
 
       <Text style={[styles.title, {marginVertical: 50}]}>MySkills</Text>
-
-      {mySkills.map(skill => (
-        <TouchableOpacity key={skill} style={styles.buttonSkill}>
-          <Text style={styles.textSkill}>{skill}</Text>
-        </TouchableOpacity>
-      ))}
+      {/* <ScrollView> poucos elements */}
+      <FlatList
+        data={mySkills}
+        keyExtractor={item => item}
+        renderItem={({item}) => <SKillCard skill={item} />}
+      />
     </SafeAreaView>
   );
 }
@@ -65,29 +63,5 @@ const styles = StyleSheet.create({
     padding: Platform.OS === 'ios' ? 15 : 10,
     marginTop: 30,
     borderRadius: 7,
-  },
-  button: {
-    backgroundColor: '#A370f7',
-    padding: 15,
-    marginTop: 20,
-    borderRadius: 7,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 17,
-    fontWeight: 'bold',
-  },
-  textSkill: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  buttonSkill: {
-    padding: 15,
-    backgroundColor: '#1f1e25',
-    borderRadius: 50,
-    alignItems: 'center',
-    marginVertical: 10,
   },
 });
