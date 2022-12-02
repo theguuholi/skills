@@ -1,10 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from 'react-native';
 
-export function SKillCard({skill}) {
+interface SkillCardProps extends TouchableOpacityProps {
+  skill: string;
+}
+
+export function SKillCard({skill, ...rest}: SkillCardProps) {
   return (
-    <TouchableOpacity style={styles.buttonSkill}>
+    <TouchableOpacity style={styles.buttonSkill} {...rest}>
       <Text style={styles.textSkill}>{skill}</Text>
     </TouchableOpacity>
   );
