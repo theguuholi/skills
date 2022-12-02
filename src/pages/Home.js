@@ -8,7 +8,6 @@ import {
   TextInput,
   Platform,
   FlatList,
-  StatusBar,
 } from 'react-native';
 import {Button} from '../components/Button';
 import {SKillCard} from '../components/SkillCard';
