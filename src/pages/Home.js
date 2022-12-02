@@ -1,13 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+// hooks: //use...NAME e.g: useState
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   Text,
   StyleSheet,
   TextInput,
   Platform,
-  ScrollView,
   FlatList,
+  StatusBar,
 } from 'react-native';
 import {Button} from '../components/Button';
 import {SKillCard} from '../components/SkillCard';
@@ -15,15 +16,36 @@ import {SKillCard} from '../components/SkillCard';
 export function Home() {
   const [newSkill, setNewSkill] = useState('');
   const [mySkills, setMySkills] = useState([]);
+  const [greeting, setGreeting] = useState('');
 
   function handleAddNewSkill() {
     // setMySkills(oldState => [...oldState, newSkill]);
     setMySkills([...mySkills, newSkill]);
   }
 
+  // function handleInputChange(text) {
+  //   console.log(text);
+  // }
+
+  // useEfect e disparado no momentode fazer a montagem do component, perto dos returns
+  // funcao que ele tem que executar, quais sao as dependencias e quando mudar executar o useEfect novamente
+  useEffect(() => {
+    const currentHour = new Date().getHours();
+    if (currentHour < 12) {
+      setGreeting('Good morning');
+    } else if (currentHour >= 12 && currentHour < 18) {
+      setGreeting('Good afternoon');
+    } else {
+      setGreeting('Good night');
+    }
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Welcome, Gustavo</Text>
+
+      <Text style={styles.greetings}>{greeting}</Text>
+
       <TextInput
         style={styles.input}
         placeholder="New Skill"
@@ -33,8 +55,11 @@ export function Home() {
 
       <Button onPress={handleAddNewSkill} />
 
-      <Text style={[styles.title, {marginVertical: 50}]}>MySkills</Text>
+      <Text style={[styles.title, {marginVertical: 50}]}>
+        MySkills: {newSkill}
+      </Text>
       {/* <ScrollView> poucos elements */}
+
       <FlatList
         data={mySkills}
         keyExtractor={item => item}
@@ -63,5 +88,8 @@ const styles = StyleSheet.create({
     padding: Platform.OS === 'ios' ? 15 : 10,
     marginTop: 30,
     borderRadius: 7,
+  },
+  greetings: {
+    color: '#fff',
   },
 });
